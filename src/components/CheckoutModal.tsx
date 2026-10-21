@@ -5,6 +5,7 @@ import { siteConfig } from '../../site.config';
 import { useAuth } from '../lib/auth-context';
 import { toast } from 'sonner';
 import BrandLogo from './BrandLogo';
+import { trackEvent } from '../lib/analytics';
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -23,6 +24,11 @@ export default function CheckoutModal({
   if (!isOpen) return null;
 
   const handleSelectPack = async (packType: 'solo' | 'trio' | 'crew') => {
+    trackEvent('checkout_pack_select', {
+      pack: packType,
+      price: siteConfig.pricing[packType].price,
+    });
+
     try {
       setLoadingPack(packType);
       const res = await fetch('/api/checkout', {
@@ -48,6 +54,9 @@ export default function CheckoutModal({
   };
 
   const handleUseCreditClick = () => {
+    trackEvent('use_credit_render', {
+      remainingCredits: (user?.credits || 1) - 1,
+    });
     const success = useCredit();
     if (success) {
       onClose();

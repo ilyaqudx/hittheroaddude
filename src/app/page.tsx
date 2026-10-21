@@ -8,6 +8,7 @@ import UserNav from '../components/UserNav';
 import AuthModal from '../components/AuthModal';
 import CheckoutModal from '../components/CheckoutModal';
 import BrandLogo from '../components/BrandLogo';
+import { trackEvent } from '../lib/analytics';
 
 export default function HomePage() {
   const { user, openAuthModal } = useAuth();
@@ -24,6 +25,10 @@ export default function HomePage() {
       const file = e.target.files[0];
       setSelectedFile(file);
       setPreviewUrl(URL.createObjectURL(file));
+      trackEvent('upload_photo', {
+        fileName: file.name,
+        fileSize: file.size,
+      });
       toast.success('Photo loaded!', {
         description: `${file.name} ready for driver replacement.`,
       });
@@ -31,6 +36,12 @@ export default function HomePage() {
   };
 
   const handleCreateClick = () => {
+    trackEvent('click_create_video', {
+      hasFile: Boolean(selectedFile),
+      consentChecked,
+      signedIn: Boolean(user),
+    });
+
     if (!selectedFile) {
       toast.error('Please upload a photo first', {
         description: 'Choose a clear portrait to put yourself in the driver’s seat.',

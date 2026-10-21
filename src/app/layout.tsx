@@ -4,6 +4,7 @@ import { generateSchema } from '../lib/schema';
 import { domTranslationGuardScript } from '../lib/dom-guard';
 import { AuthProvider } from '../lib/auth-context';
 import { Toaster } from 'sonner';
+import { Analytics } from '@vercel/analytics/react';
 import './globals.css';
 
 export const viewport: Viewport = {
@@ -47,6 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const { websiteSchema, softwareSchema, faqSchema } = generateSchema();
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
   return (
     <html lang="en" className="dark">
@@ -60,6 +62,22 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: domTranslationGuardScript }} />
         {/* Google Identity Services for Google Login */}
         <script src="https://accounts.google.com/gsi/client" async defer></script>
+        {/* Optional Google Analytics 4 (GA4) */}
+        {gaId && (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${gaId}', { page_path: window.location.pathname });
+                `,
+              }}
+            />
+          </>
+        )}
         {/* Schema.org JSON-LD Injections for Google SERP Rich Snippets */}
         <script
           type="application/ld+json"
@@ -79,6 +97,8 @@ export default function RootLayout({
           <Toaster richColors position="top-center" theme="dark" closeButton />
           {children}
         </AuthProvider>
+        {/* Vercel Web Analytics Real-Time Tracking */}
+        <Analytics />
       </body>
     </html>
   );
