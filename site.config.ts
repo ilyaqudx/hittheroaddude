@@ -50,7 +50,7 @@ export interface MemeConfig {
 export const siteConfig: MemeConfig = {
   name: "Hit The Road Dude AI",
   slug: "hit-the-road-dude",
-  domain: "hittheroaddude.org",
+  domain: "hittheroaddude.space",
   title: "Hit The Road Dude AI Video Generator – The Private Property Meme",
   description: "Create a Hit The Road Dude AI video from one photo: a 11-second 9:16 vertical remix with no prompt or editing. Choose a one-time video pack with no subscription.",
   ogImage: "/og-image.jpg",
