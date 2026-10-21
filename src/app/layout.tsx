@@ -32,9 +32,12 @@ export const metadata: Metadata = {
     images: [siteConfig.ogImage],
   },
   icons: {
-    icon: '/icon.svg',
-    shortcut: '/icon.svg',
-    apple: '/icon.svg',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
   },
 };
 
@@ -48,6 +51,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        {/* Favicon & Web App Icons */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         {/* DOM translation guard to prevent Google Translate React crash */}
         <script dangerouslySetInnerHTML={{ __html: domTranslationGuardScript }} />
         {/* Google Identity Services for Google Login */}
