@@ -5,6 +5,7 @@ import { siteConfig } from '../../site.config';
 
 export default function HomePage() {
   const [activeExampleIndex, setActiveExampleIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(true);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [consentChecked, setConsentChecked] = useState(false);
@@ -64,6 +65,7 @@ export default function HomePage() {
         </div>
         <nav className="flex items-center gap-6 text-sm text-neutral-400">
           <a href="#examples" className="hover:text-white transition">Examples</a>
+          <a href="#photo-tips" className="hover:text-white transition">Photo Tips</a>
           <a href="#pricing" className="hover:text-white transition">Pricing</a>
           <a href="#faq" className="hover:text-white transition">FAQ</a>
         </nav>
@@ -73,16 +75,26 @@ export default function HomePage() {
       <section className="max-w-6xl mx-auto px-4 py-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
         {/* Left Column: Video Preview & Carousel */}
         <div className="flex flex-col gap-4">
-          <div className="relative aspect-[9/16] max-h-[580px] w-full max-w-[340px] mx-auto rounded-3xl overflow-hidden border border-white/15 bg-neutral-900 shadow-2xl">
+          <div className="relative aspect-[9/16] max-h-[580px] w-full max-w-[340px] mx-auto rounded-3xl overflow-hidden border border-white/15 bg-neutral-900 shadow-2xl group">
             <video
               key={siteConfig.examples[activeExampleIndex].videoUrl}
               src={siteConfig.examples[activeExampleIndex].videoUrl}
               poster={siteConfig.examples[activeExampleIndex].posterUrl}
+              autoPlay
+              muted={isMuted}
               controls
               playsInline
               loop
               className="w-full h-full object-cover"
             />
+            {/* Audio Toggle Pill */}
+            <button
+              onClick={() => setIsMuted(!isMuted)}
+              className="absolute bottom-4 right-4 bg-black/75 hover:bg-black/90 backdrop-blur text-white text-xs px-3 py-1.5 rounded-full border border-white/20 flex items-center gap-1.5 transition z-10 shadow-lg"
+              title={isMuted ? "Click to enable sound" : "Mute sound"}
+            >
+              {isMuted ? "🔇 Unmute Audio" : "🔊 Sound ON"}
+            </button>
           </div>
 
           {/* Carousel thumbnails */}
@@ -177,7 +189,110 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. Pricing Section */}
+      {/* 3. Examples Gallery Section */}
+      <section id="examples" className="max-w-6xl mx-auto px-4 py-16 w-full border-t border-white/10">
+        <div className="text-center mb-12">
+          <span className="text-xs font-semibold tracking-wider uppercase text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">
+            SHOWCASE GALLERY
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-3">
+            Hit The Road Dude Remix Gallery
+          </h2>
+          <p className="text-neutral-400 text-sm mt-2 max-w-xl mx-auto">
+            From the original skeptical pickup confrontation to pets and hilarious character remakes. Click any video to play.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {siteConfig.examples.map((ex, idx) => (
+            <div
+              key={ex.id}
+              className="flex flex-col bg-white/[0.02] border border-white/10 hover:border-amber-400/50 rounded-3xl overflow-hidden transition group shadow-lg"
+            >
+              <div className="relative aspect-[9/16] bg-black overflow-hidden">
+                <video
+                  src={ex.videoUrl}
+                  poster={ex.posterUrl}
+                  controls
+                  playsInline
+                  loop
+                  preload="metadata"
+                  className="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300"
+                />
+              </div>
+              <div className="p-5 flex flex-col justify-between flex-1 gap-4">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/20">
+                      Example 0{idx + 1}
+                    </span>
+                    <span className="text-xs text-neutral-500 font-mono">11s · 9:16</span>
+                  </div>
+                  <h3 className="text-lg font-bold text-white mt-2">{ex.title}</h3>
+                </div>
+                <button
+                  onClick={() => {
+                    setActiveExampleIndex(idx);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="w-full py-2.5 rounded-full bg-white/5 hover:bg-amber-400 hover:text-black font-semibold text-xs transition border border-white/10"
+                >
+                  Use this style in Editor ↑
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 4. Photo Quality Tips Section */}
+      <section id="photo-tips" className="max-w-5xl mx-auto px-4 py-16 w-full border-t border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+          <div className="flex flex-col items-center">
+            <div className="relative rounded-3xl overflow-hidden border border-white/15 shadow-2xl max-w-[320px]">
+              <img
+                src="/images/photo-tip-portrait.jpg"
+                alt="Ideal portrait for Hit The Road Dude AI generation"
+                className="w-full h-auto object-cover"
+              />
+              <div className="absolute top-3 left-3 bg-emerald-500/90 backdrop-blur text-black text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 shadow">
+                ✓ Ideal Framing & Lighting
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col gap-4">
+            <span className="text-xs font-semibold tracking-wider uppercase text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20 w-fit">
+              BEST RESULTS GUIDE
+            </span>
+            <h2 className="text-3xl font-extrabold tracking-tight text-white">
+              Photo Tips for Perfect Lip-Sync & Face Matching
+            </h2>
+            <p className="text-neutral-400 text-sm leading-relaxed">
+              Our AI replaces the driver in the white pickup truck using single-frame facial feature mapping. Following these 4 simple tips guarantees the highest video quality:
+            </p>
+            <ul className="flex flex-col gap-3 mt-2 text-sm text-neutral-300">
+              <li className="flex items-start gap-2.5">
+                <span className="text-emerald-400 font-bold">✓</span>
+                <span><strong>Single person or pet</strong>: Face clearly visible, looking directly towards the camera.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="text-emerald-400 font-bold">✓</span>
+                <span><strong>Natural lighting</strong>: Even illumination across eyes, cheeks, and mouth without harsh backlighting.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="text-red-400 font-bold">✕</span>
+                <span><strong>No sunglasses or masks</strong>: Eyes and eyebrows are required for accurate facial expression synthesis.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="text-red-400 font-bold">✕</span>
+                <span><strong>Avoid group photos or heavy blur</strong>: Close-up portraits up to 10 MB in JPG, PNG, or WebP work best.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Pricing Section */}
       <section id="pricing" className="max-w-5xl mx-auto px-4 py-16 w-full border-t border-white/10">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold tracking-tight">One-Time Video Packs</h2>
