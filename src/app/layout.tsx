@@ -40,6 +40,9 @@ export const metadata: Metadata = {
     shortcut: '/favicon.ico',
     apple: '/apple-touch-icon.png',
   },
+  verification: {
+    google: 'uYdiCU_vzp7R51TS9rxBaXLrOo6_P-atTJOtOjnQXpU',
+  },
 };
 
 export default function RootLayout({
@@ -53,6 +56,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        {/* Google Search Console Ownership Verification */}
+        <meta name="google-site-verification" content="uYdiCU_vzp7R51TS9rxBaXLrOo6_P-atTJOtOjnQXpU" />
         {/* Favicon & Web App Icons */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
