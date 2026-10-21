@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import { siteConfig } from '../../site.config';
 import { generateSchema } from '../lib/schema';
 import { domTranslationGuardScript } from '../lib/dom-guard';
+import { AuthProvider } from '../lib/auth-context';
+import { Toaster } from 'sonner';
 import './globals.css';
 
 export const viewport: Viewport = {
@@ -43,6 +45,8 @@ export default function RootLayout({
       <head>
         {/* DOM translation guard to prevent Google Translate React crash */}
         <script dangerouslySetInnerHTML={{ __html: domTranslationGuardScript }} />
+        {/* Google Identity Services for Google Login */}
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
         {/* Schema.org JSON-LD Injections for Google SERP Rich Snippets */}
         <script
           type="application/ld+json"
@@ -58,7 +62,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-[#090b0c] text-white flex flex-col antialiased">
-        {children}
+        <AuthProvider>
+          <Toaster richColors position="top-center" theme="dark" closeButton />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

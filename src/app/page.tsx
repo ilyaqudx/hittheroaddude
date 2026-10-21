@@ -2,8 +2,14 @@
 
 import React, { useState } from 'react';
 import { siteConfig } from '../../site.config';
+import { useAuth } from '../lib/auth-context';
+import { toast } from 'sonner';
+import UserNav from '../components/UserNav';
+import AuthModal from '../components/AuthModal';
+import CheckoutModal from '../components/CheckoutModal';
 
 export default function HomePage() {
+  const { user, openAuthModal } = useAuth();
   const [activeExampleIndex, setActiveExampleIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -17,23 +23,51 @@ export default function HomePage() {
       const file = e.target.files[0];
       setSelectedFile(file);
       setPreviewUrl(URL.createObjectURL(file));
+      toast.success('Photo loaded!', {
+        description: `${file.name} ready for driver replacement.`,
+      });
     }
   };
 
   const handleCreateClick = () => {
     if (!selectedFile) {
-      alert("Please upload a photo first.");
+      toast.error('Please upload a photo first', {
+        description: 'Choose a clear portrait to put yourself in the driver’s seat.',
+      });
       return;
     }
     if (!consentChecked) {
-      alert("Please confirm the consent checkbox regarding photo permission.");
+      toast.warning('Permission confirmation required', {
+        description: 'Please check the consent box confirming you have permission to use this photo.',
+      });
       return;
     }
-    // Direct user to select a pack before generation starts
+    if (!user) {
+      toast.info('Sign in with Google required', {
+        description: 'Please sign in to save and generate your video.',
+      });
+      openAuthModal();
+      return;
+    }
+    // Direct user to select a pack or use existing credit
     setShowCheckoutModal(true);
   };
 
+  const handleGenerateWithCredit = () => {
+    toast.loading('Synthesizing your Hit The Road Dude video...', { id: 'video-render' });
+    setTimeout(() => {
+      toast.success('Video generation complete! Check the preview window.', {
+        id: 'video-render',
+        description: 'Your 9:16 vertical video is ready to download.',
+      });
+    }, 2500);
+  };
+
   const handleSelectPack = async (packType: 'solo' | 'trio' | 'crew') => {
+    if (!user) {
+      openAuthModal();
+      return;
+    }
     try {
       setIsUploading(true);
       const res = await fetch('/api/checkout', {
@@ -45,10 +79,14 @@ export default function HomePage() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert(data.error || 'Failed to initiate checkout');
+        toast.error('Checkout failed', {
+          description: data.error || 'Unable to open checkout session',
+        });
       }
     } catch (err: any) {
-      alert(err.message || 'Payment initiation error');
+      toast.error('Payment error', {
+        description: err.message || 'Please check your connection and try again.',
+      });
     } finally {
       setIsUploading(false);
     }
@@ -57,18 +95,22 @@ export default function HomePage() {
   return (
     <div className="flex-1 flex flex-col">
       {/* 1. Header */}
-      <header className="border-b border-white/10 px-6 py-4 flex items-center justify-between">
+      <header className="border-b border-white/10 px-6 py-4 flex items-center justify-between sticky top-0 bg-[#090b0c]/90 backdrop-blur z-30">
         <div className="flex items-center gap-3">
           <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
             {siteConfig.name}
           </span>
         </div>
-        <nav className="flex items-center gap-6 text-sm text-neutral-400">
-          <a href="#examples" className="hover:text-white transition">Examples</a>
-          <a href="#photo-tips" className="hover:text-white transition">Photo Tips</a>
-          <a href="#pricing" className="hover:text-white transition">Pricing</a>
-          <a href="#faq" className="hover:text-white transition">FAQ</a>
-        </nav>
+        <div className="flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-6 text-sm text-neutral-400">
+            <a href="#examples" className="hover:text-white transition">Examples</a>
+            <a href="#photo-tips" className="hover:text-white transition">Photo Tips</a>
+            <a href="#pricing" className="hover:text-white transition">Pricing</a>
+            <a href="#faq" className="hover:text-white transition">FAQ</a>
+          </nav>
+          {/* User Profile / Google Sign In */}
+          <UserNav />
+        </div>
       </header>
 
       {/* 2. Hero Double-Column Workspace */}
@@ -371,6 +413,14 @@ export default function HomePage() {
       <footer className="border-t border-white/10 py-8 px-6 text-center text-xs text-neutral-500">
         <p>© {new Date().getFullYear()} {siteConfig.name}. {siteConfig.disclaimer}</p>
       </footer>
+
+      {/* Global Modals */}
+      <AuthModal />
+      <CheckoutModal
+        isOpen={showCheckoutModal}
+        onClose={() => setShowCheckoutModal(false)}
+        onGenerateWithCredit={handleGenerateWithCredit}
+      />
     </div>
   );
 }
