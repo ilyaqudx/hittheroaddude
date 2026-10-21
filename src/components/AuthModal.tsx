@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useAuth } from '../lib/auth-context';
+import BrandLogo from './BrandLogo';
 
 export default function AuthModal() {
   const { isAuthModalOpen, closeAuthModal, signInWithGoogle } = useAuth();
@@ -37,10 +38,8 @@ export default function AuthModal() {
           </svg>
         </button>
 
-        {/* Brand Icon */}
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500/20 to-orange-500/20 border border-amber-500/30 flex items-center justify-center mb-5 shadow-inner">
-          <span className="text-2xl">🚗</span>
-        </div>
+        {/* Brand Logo */}
+        <BrandLogo size="xl" className="mb-4" />
 
         {/* Title & Description */}
         <h2 className="text-2xl font-bold tracking-tight text-white">

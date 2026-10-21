@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import UserNav from '../components/UserNav';
 import AuthModal from '../components/AuthModal';
 import CheckoutModal from '../components/CheckoutModal';
+import BrandLogo from '../components/BrandLogo';
 
 export default function HomePage() {
   const { user, openAuthModal } = useAuth();
@@ -96,11 +97,12 @@ export default function HomePage() {
     <div className="flex-1 flex flex-col">
       {/* 1. Header */}
       <header className="border-b border-white/10 px-6 py-4 flex items-center justify-between sticky top-0 bg-[#090b0c]/90 backdrop-blur z-30">
-        <div className="flex items-center gap-3">
-          <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+        <a href="/" className="flex items-center gap-3 group">
+          <BrandLogo size="md" />
+          <span className="text-xl font-black tracking-tight bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 bg-clip-text text-transparent group-hover:opacity-90 transition">
             {siteConfig.name}
           </span>
-        </div>
+        </a>
         <div className="flex items-center gap-6">
           <nav className="hidden md:flex items-center gap-6 text-sm text-neutral-400">
             <a href="#examples" className="hover:text-white transition">Examples</a>
@@ -410,7 +412,11 @@ export default function HomePage() {
       </section>
 
       {/* 5. Footer */}
-      <footer className="border-t border-white/10 py-8 px-6 text-center text-xs text-neutral-500">
+      <footer className="border-t border-white/10 py-10 px-6 flex flex-col items-center justify-center gap-3 text-center text-xs text-neutral-500">
+        <div className="flex items-center gap-2.5">
+          <BrandLogo size="sm" />
+          <span className="font-bold text-neutral-300">{siteConfig.name}</span>
+        </div>
         <p>© {new Date().getFullYear()} {siteConfig.name}. {siteConfig.disclaimer}</p>
       </footer>
 

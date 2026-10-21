@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { siteConfig } from '../../site.config';
 import { useAuth } from '../lib/auth-context';
 import { toast } from 'sonner';
+import BrandLogo from './BrandLogo';
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -70,7 +71,8 @@ export default function CheckoutModal({
         </button>
 
         {/* Header */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-6 flex flex-col items-center">
+          <BrandLogo size="md" className="mb-3" />
           <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">
             VIDEO PACKS
           </span>
