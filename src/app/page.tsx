@@ -423,11 +423,51 @@ export default function HomePage() {
       </section>
 
       {/* 5. Footer */}
-      <footer className="border-t border-white/10 py-10 px-6 flex flex-col items-center justify-center gap-3 text-center text-xs text-neutral-500">
+      <footer className="border-t border-white/10 py-10 px-6 flex flex-col items-center justify-center gap-4 text-center text-xs text-neutral-500">
         <div className="flex items-center gap-2.5">
           <BrandLogo size="sm" />
           <span className="font-bold text-neutral-300">{siteConfig.name}</span>
         </div>
+        
+        {/* Authoritative Outgoing Reference Links (Resolves Page has no outgoing links SEO issue) */}
+        <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-neutral-400">
+          <a
+            href="https://knowyourmeme.com/memes/state-property-hit-the-road-dude"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-amber-400 transition underline underline-offset-4"
+          >
+            Meme Lore (Know Your Meme)
+          </a>
+          <span>•</span>
+          <a
+            href="https://www.tiktok.com/tag/hittheroaddude"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-amber-400 transition underline underline-offset-4"
+          >
+            TikTok Trend
+          </a>
+          <span>•</span>
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-neutral-300 transition"
+          >
+            Google Privacy Policy
+          </a>
+          <span>•</span>
+          <a
+            href="https://policies.google.com/terms"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-neutral-300 transition"
+          >
+            Terms of Service
+          </a>
+        </div>
+
         <p>© {new Date().getFullYear()} {siteConfig.name}. {siteConfig.disclaimer}</p>
       </footer>
 

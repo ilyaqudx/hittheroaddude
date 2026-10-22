@@ -67,6 +67,12 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: domTranslationGuardScript }} />
         {/* Google Identity Services for Google Login */}
         <script src="https://accounts.google.com/gsi/client" async defer></script>
+        {/* Ahrefs Web Analytics */}
+        <script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="ZEfmbQDvCk/G2cxjmCWtFw"
+          async
+        />
         {/* Optional Google Analytics 4 (GA4) */}
         {gaId && (
           <>

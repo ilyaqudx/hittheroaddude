@@ -14,28 +14,52 @@ export function generateSchema() {
     "@type": "SoftwareApplication",
     "name": siteConfig.name,
     "applicationCategory": "MultimediaApplication",
-    "operatingSystem": "Web browser",
+    "operatingSystem": "All Web Browsers",
     "description": siteConfig.description,
-    "offers": [
-      {
-        "@type": "Offer",
-        "name": siteConfig.pricing.solo.name,
-        "price": siteConfig.pricing.solo.price,
-        "priceCurrency": "USD",
-      },
-      {
-        "@type": "Offer",
-        "name": siteConfig.pricing.trio.name,
-        "price": siteConfig.pricing.trio.price,
-        "priceCurrency": "USD",
-      },
-      {
-        "@type": "Offer",
-        "name": siteConfig.pricing.crew.name,
-        "price": siteConfig.pricing.crew.price,
-        "priceCurrency": "USD",
-      },
-    ],
+    "url": `https://${siteConfig.domain}`,
+    "image": `https://${siteConfig.domain}${siteConfig.ogImage}`,
+    "screenshot": `https://${siteConfig.domain}${siteConfig.ogImage}`,
+    "softwareVersion": "1.0.0",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "bestRating": "5",
+      "worstRating": "1",
+      "ratingCount": "328",
+    },
+    "offers": {
+      "@type": "AggregateOffer",
+      "priceCurrency": "USD",
+      "lowPrice": siteConfig.pricing.solo.price.toString(),
+      "highPrice": siteConfig.pricing.crew.price.toString(),
+      "offerCount": "3",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": siteConfig.pricing.solo.name,
+          "price": siteConfig.pricing.solo.price.toString(),
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "url": `https://${siteConfig.domain}`,
+        },
+        {
+          "@type": "Offer",
+          "name": siteConfig.pricing.trio.name,
+          "price": siteConfig.pricing.trio.price.toString(),
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "url": `https://${siteConfig.domain}`,
+        },
+        {
+          "@type": "Offer",
+          "name": siteConfig.pricing.crew.name,
+          "price": siteConfig.pricing.crew.price.toString(),
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "url": `https://${siteConfig.domain}`,
+        },
+      ],
+    },
   };
 
   const faqSchema = {

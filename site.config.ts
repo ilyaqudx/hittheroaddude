@@ -52,7 +52,7 @@ export const siteConfig: MemeConfig = {
   slug: "hit-the-road-dude",
   domain: "hittheroaddude.space",
   title: "Hit The Road Dude AI Video Generator – The Private Property Meme",
-  description: "Create a Hit The Road Dude AI video from one photo: a 11-second 9:16 vertical remix with no prompt or editing. Choose a one-time video pack with no subscription.",
+  description: "Create a Hit The Road Dude AI video from one photo. 11-sec 9:16 vertical remix with instant lip-sync. Choose one-time video packs with zero subscription.",
   ogImage: "/og-image.jpg",
   themeColor: "#090b0c",
 
